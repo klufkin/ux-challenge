@@ -4,3 +4,426 @@
  * If you create your own color palette, please list out the primary/secondary/tertiary
  * colors you made for reference, along with any other design brand decisions.
  */
+
+/* ------------------------------------------ GENERAL ------------------------------------------ */
+
+/* ------------------ STYLE RESETS ------------------ */
+* {
+  /* spacing reset */
+  margin: 0;
+  padding: 0;
+
+  box-sizing: border-box;
+}
+
+/* button reset */
+button,
+input[type='button'] {
+  border: none;
+  outline: none;
+  background: none;
+}
+
+/* ------------------ DESIGN ELEMENTS ------------------ */
+
+html {
+  /* Browser Support Note:
+    I utilized CSS variables to standarize my design constraints to one location
+    this feature is not supported in IE11 and older, as well as other older modern browsers
+    see https://caniuse.com/#search=var. To prevent style breaking of noncompatible browsers
+    would require placing the actual style values underneath the CSS variable declarations
+    in each element that utilized them.
+
+    For the purpose of clarity and time I did not implement the stopgap for this challenge.
+  */
+
+  /* Note: fonts are loaded through google fonts api 
+  and require an internet connection to be seen.*/
+  --heading-font: 'Caveat Brush', cursive;
+  --body-font: 'Gaegu', cursive;
+
+  --primary-color: #0d023f;
+  --secondary-color: #ff8eab;
+  --secondary-color-transparent: rgba(255, 142, 171, 0.25);
+  --tertiary-color1: #fff288;
+  --tertiary-color2: #ff2dce;
+
+  --border-color: #e7e7e7;
+  --background-color: #fff;
+  --button-font-color: #fff;
+
+  --spacing-1: 10px;
+  --spacing-2: 18px;
+  --spacing-3: 30px;
+  --spacing-4: 48px;
+  --spacing-5: 78px;
+
+  --border-radius: 6px;
+  --border-style: 1px solid var(--border-color);
+
+  --font-body-size: 18px;
+  --font-header1-size: 20px;
+  --font-header2-size: 28px;
+
+  --box-shadow: 0 2px 10px 0 var(--secondary-color-transparent);
+}
+
+body {
+  color: var(--primary-color);
+  background: url('../img/background-pattern.png');
+}
+
+/* ------------------ ANIMATIONS ------------------ */
+
+@keyframes wobble {
+  20% {
+    transform: translateX(-4px);
+  }
+
+  40% {
+    transform: translateX(3px);
+  }
+
+  60% {
+    transform: translateX(-2px);
+  }
+
+  80% {
+    transform: translateX(1px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes wiggle {
+  12.5% {
+    transform: translateX(1px) rotate(9deg);
+  }
+
+  25% {
+    transform: translateX(-1px) rotate(-9deg);
+  }
+
+  37.5% {
+    transform: translateX(1px) rotate(6deg);
+  }
+
+  50% {
+    transform: translateX(-1px) rotate(-6deg);
+  }
+
+  62.5% {
+    transform: translateX(1px) rotate(3deg);
+  }
+
+  75% {
+    transform: translateX(-1px) rotate(-3deg);
+  }
+
+  87.5% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(0);
+  }
+}
+
+/* ------------------------------------------ HEADER ------------------------------------------ */
+
+#app-header {
+  position: fixed;
+  top: -100px;
+  width: 100%;
+  z-index: 1;
+  animation: 0.5s ease-in-out slidein forwards;
+}
+
+@keyframes slidein {
+  from {
+    top: -100px;
+  }
+
+  to {
+    top: 0;
+  }
+}
+
+.app-header-stripe {
+  width: 100%;
+  height: var(--spacing-1);
+  background: linear-gradient(
+    0.25turn,
+    var(--tertiary-color1),
+    var(--tertiary-color2)
+  );
+}
+
+.app-header-content {
+  display: flex;
+  justify-content: space-between;
+  height: 90px;
+  background: var(--background-color);
+  border-bottom: var(--border-style);
+}
+
+.app-header-nav {
+  display: flex;
+  align-items: center;
+}
+
+.app-header-nav > button {
+  margin-right: var(--spacing-3);
+  font-family: var(--body-font);
+  color: var(--primary-color);
+  font-size: var(--font-header1-size);
+  border-radius: var(--border-radius);
+  position: relative;
+}
+
+.app-header-nav > button:hover {
+  cursor: pointer;
+}
+
+.app-header-nav > button::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: 51%;
+  right: 51%;
+  bottom: 0;
+  background: var(--primary-color);
+  height: 2px;
+  transition: all 0.2s ease-out;
+  opacity: 0;
+}
+
+.app-header-nav > button:hover:before {
+  z-index: 0;
+  left: 0;
+  right: 0;
+  opacity: 1;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  margin-left: var(--spacing-3);
+}
+
+.header-logo > img {
+  width: 52px;
+  animation: 0.6s 1s ease-in wiggle forwards;
+}
+
+.header-logo > h1 {
+  margin-left: var(--spacing-1);
+  font-family: var(--heading-font);
+  font-size: 36px;
+}
+
+@media screen and (max-width: 440px) {
+  .app-header-content {
+    height: var(--spacing-5);
+  }
+
+  .header-logo {
+    margin-left: var(--spacing-2);
+  }
+  .header-logo > img {
+    width: 32px;
+  }
+
+  .header-logo > h1 {
+    font-size: 24px;
+  }
+
+  .app-header-nav > button {
+    margin-right: var(--spacing-2);
+    font-size: var(--font-body-size);
+  }
+}
+
+/* ------------------------------------------ MAIN ------------------------------------------ */
+
+#app-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: calc(100px + var(--spacing-5));
+}
+
+@media screen and (max-width: 440px) {
+  #app-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: calc(var(--spacing-5) + var(--spacing-4));
+  }
+}
+
+/* ------------------------------------------ CAT POST ------------------------------------------ */
+
+.cat-post {
+  max-width: 520px;
+  width: 520px;
+  position: relative;
+  margin-bottom: var(--spacing-4);
+  padding: var(--spacing-3) 0;
+  background: var(--background-color);
+  box-shadow: var(--box-shadow);
+  border-radius: var(--border-radius);
+}
+
+@media screen and (max-width: 550px) {
+  .cat-post {
+    width: calc(100% - 2 * var(--spacing-2));
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .cat-post {
+    width: calc(100% - 2 * var(--spacing-1));
+  }
+}
+
+.post-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.post-content > img {
+  order: 1;
+  width: 100%;
+  margin-bottom: var(--spacing-2);
+}
+
+.post-content > h2 {
+  margin-left: var(--spacing-3);
+  font-family: var(--heading-font);
+  font-size: var(--font-header2-size);
+}
+
+.post-content > p {
+  margin: 0 var(--spacing-5) var(--spacing-2) var(--spacing-3);
+  font-family: var(--body-font);
+  font-size: var(--font-header1-size);
+}
+
+.post-social {
+  position: absolute;
+  top: calc(var(--spacing-3) + 5px);
+  right: var(--spacing-3);
+  font-family: var(--heading-font);
+  font-size: var(--font-header1-size);
+}
+
+.post-social > button {
+  position: relative;
+  display: inline-block;
+  width: 28px;
+  height: 23px;
+  color: var(--button-font-color);
+}
+
+.post-social > button::after {
+  content: '';
+  display: inline-block;
+  width: 28px;
+  height: 23px;
+  background-image: url(../img/heart-empty.svg);
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: background-image 0.2s ease-in-out;
+}
+
+.post-social > button:hover::after {
+  background-image: url('../img/heart-full.svg');
+  cursor: pointer;
+}
+
+@media screen and (max-width: 400px) {
+  .post-social {
+    flex-direction: column-reverse;
+    display: flex;
+    align-items: center;
+    right: var(--spacing-2);
+  }
+}
+
+.comment-list {
+  margin: 0 var(--spacing-3);
+}
+
+.comment-list > li {
+  list-style: none;
+  margin-bottom: var(--spacing-2);
+  font-family: var(--body-font);
+  font-size: var(--font-body-size);
+}
+
+.comment-list .user-name {
+  font-weight: bold;
+}
+
+.comment-list .user-name:before {
+  font-size: 16px;
+}
+
+.comment-list > li:nth-of-type(2n) .user-name:before {
+  content: '🐾';
+}
+
+.comment-list > li:nth-of-type(2n + 1) .user-name:before {
+  content: '🐈';
+}
+
+.comment-list .content {
+  display: inline;
+}
+
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 2 * var(--spacing-3));
+  margin: 0 var(--spacing-3);
+}
+
+.comment-form > textarea {
+  height: var(--spacing-4);
+  width: calc(100% * 2 var(--spacing-2));
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--border-radius);
+  border: var(--border-style);
+  margin-bottom: var(--spacing-1);
+  font-family: var(--body-font);
+  font-size: var(--font-body-size);
+}
+
+.comment-form > textarea::placeholder {
+  color: var(--secondary-color);
+  font-family: var(--body-font);
+  font-size: var(--font-body-size);
+}
+
+.comment-form > input[type='button'] {
+  align-self: flex-end;
+  height: 32px;
+  width: 126px;
+  color: var(--button-font-color);
+  background: var(--secondary-color);
+  border-radius: var(--border-radius);
+  font-family: var(--heading-font);
+  font-size: var(--font-header1-size);
+  line-height: 32px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.comment-form > input[type='button']:hover {
+  background: var(--tertiary-color2);
+  cursor: pointer;
+  animation: 0.6s ease-in-out wobble;
+}
